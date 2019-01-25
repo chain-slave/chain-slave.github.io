@@ -1,0 +1,77 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js">//stable version</script>
+</head>
+<body>
+	<script>
+	if(typeof web3 !== 'undefined'){
+		web3 = new Web3(web3.currentProvider);
+		console.log('Metamask Used');
+	} else {
+		web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io")); //How infura works?
+		console.log(web3.currentProvider);
+	}
+	</script>
+	
+	<script>
+	var testContract = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "showTokenName",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "showBalance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_totalSupply",
+				"type": "uint256"
+			},
+			{
+				"name": "_tokenName",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+])
+	</script>
+	
+	<script>
+	web3.eth.defaultAccount = web3.eth.accounts[0];
+	
+	testContract.new(1000,"ad_os",{
+		from: "0x2621e1dab1dcd6669522d3fe688322372d78b2ef",
+		data: "소비자의 법률적 동의여부...",
+		gas: '1000000'
+	}, function(err,contract){
+		console.log(err);
+		//console.log(contract.address);
+	});
+	</script>
+</body
+</html>

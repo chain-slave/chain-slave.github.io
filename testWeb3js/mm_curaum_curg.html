@@ -107,7 +107,14 @@
 	var address = "0x356534059f5e767a7fc5d5edbdadcc2aa9f7d010"; //contract deployed by remix
 	var cInst = MyContract.at(address); //contractInstance
 	
-	alert(cInst.getFirst());
+	alert(cInst.getFirst(function(error,result){
+		if(error){
+			console.log(error);
+		}
+		else {
+			console.log(result);
+		}
+	}));
 	
 	cInst.toggle1();
 </script>

@@ -97,6 +97,7 @@
 <script>
 	//<-abiArray
 	
+	/*
 	if(typeof web3 !== 'undefined'){
 		web3 = new Web3(web3.currentProivder);
 		console.log(web3);
@@ -105,6 +106,21 @@
 		web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io"));
 		console.log(web3);
 	}
+	*/
+	
+	window.addEventListener("load", function() {
+    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+    if (typeof web3 !== "undefined") {
+      // Use Mist/MetaMask's provider
+      window.web3 = new Web3(web3.currentProvider);
+      console.log(web3.currentProvider);
+    } else {
+      console.log("No web3? You should consider trying MetaMask!");
+      // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+      window.web3 = new Web3(
+        new Web3.providers.HttpProvider("https://ropsten.infura.io")
+      );
+    }
 	
 	var MyContract = web3.eth.contract(abiArray);
 	var address = "0x356534059f5e767a7fc5d5edbdadcc2aa9f7d010"; //contract deployed by remix

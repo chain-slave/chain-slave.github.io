@@ -122,17 +122,21 @@
       );
     }
 	
+	}
+	
 	var MyContract = web3.eth.contract(abiArray);
 	var address = "0x356534059f5e767a7fc5d5edbdadcc2aa9f7d010"; //contract deployed by remix
 	var cInst = MyContract.at(address); //contractInstance
 	
+	var resFirst;
 	cInst.getFirst(function(err, res){
 		alert(res);
+		resFirst = res;
 	});
 	
 	var image_second = document.getElementById("second_img");
 	
-	if(cInst.getFirst()){
+	if(resFirst){
 		image_second.src = "./img/process_on.png";
 	} else {
 		image_second.src = "./img/process_off.png";

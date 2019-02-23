@@ -5,8 +5,9 @@
 </head>
 <body>
 
-	<img id="second_img" src="" width="100" height="100"><br>
-
+	<img id="second_img" src="" width="100" height="100">
+	<button>Click</button>
+	
 <script>
 	var abiArray = [
 	{
@@ -115,10 +116,6 @@
       // Use Mist/MetaMask's provider
       window.web3 = new Web3(web3.currentProvider);
       console.log(web3.currentProvider);
-	  
-	  var accounts = web3.eth.accounts;
-	  console.log(accounts, web3.eth.defaultAccount);
-	
     } else {
       console.log("No web3? You should consider trying MetaMask!");
       // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
@@ -129,43 +126,41 @@
 	
 	});
 	
-	var accounts = web3.eth.accounts;
-	console.log(accounts);
-	
 	var MyContract = web3.eth.contract(abiArray);
 	var address = "0x356534059f5e767a7fc5d5edbdadcc2aa9f7d010"; //contract deployed by remix
 	var cInst = MyContract.at(address); //contractInstance
 	
-	var resFirst;
-	cInst.getFirst(function(err, res){
-		alert(res);
-		resFirst = res;
-	});
+
+	function changeFirstImage(resFirst){
+		var image_second = document.getElementById("second_img");
 	
-	var image_second = document.getElementById("second_img");
-	
-	if(resFirst){
-		image_second.src = "./img/process_on.png";
-	} else {
-		image_second.src = "./img/process_off.png";
+		if(resFirst){
+			image_second.src = "./img/process_on.png";
+		}else {
+			image_second.src = "./img/process_off.png";
+		}
 	}
 	
+	function getFirst(){
+		cInst.getFirst(function(err, res){
+			alert(res);
+			changeFirstImage(res);
+		});
+	}
+	
+	getFirst();
+	
 	$(document).ready(function(){
-		$("img").click(function(){
-			web3.eth.defaultAccount = web3.eth.accounts[0];
-			console.log(web3.eth.accounts);
+		$("button").click(function(){
+				var accounts = web3.eth.accounts;
+	console.log(accounts);
 			cInst.toggle1(function(err,res){
+			
 				console.log(res);
-				cInst.getFirst(function(err,res){
-					if(res){
-						image_second.src = "./img/process_on.png";
-					} else {
-						image_second.src = "./img/process_off.png";
-					}
-				});
+				getFirst();
 			});
-		})
-	})
+		});
+	});
 	
 </script>
 
